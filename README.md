@@ -12,7 +12,13 @@
 
 ```bash
 ###安装开发环境
-sudo apt install build-essential git texinfo bison
+sudo apt install build-essential git texinfo bison gawk
+```
+
+```bash
+###/bin/sh -> /bin/bash
+rm -f /bin/sh
+ln -s /bin/bash /bin/sh
 ```
 
 ```bash
@@ -76,7 +82,18 @@ rm -f dummy.c dummy
 EOF
 ```
 
+```bash
+cat > library-check.sh << "EOF"
+#!/bin/bash
+for lib in lib{gmp,mpfr,mpc}.la; do
+echo $lib: $(if find /usr/lib* -name $lib|
+grep -q $lib;then :;else echo not;fi) found
+done
+unset lib
+EOF
+```
+
 [Build a basic Linux System from package.][2]
 
-[1]:	http://www.linuxfromscratch.org/ "Linux From Scratch Web Site."
+[1]:	https://linux.cn/lfs/LFS-BOOK-7.7-systemd/ "Linux From Scratch Web Site."
 [2]:	http://www.linuxfromscratch.org/lfs/view/stable/wget-list "软件包"
